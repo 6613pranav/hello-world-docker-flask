@@ -22,117 +22,57 @@ Let's try building a straightforward Flask application and Dockerizing it. We wi
 <!-- GETTING STARTED -->
 ## Getting Started
 This Flask application will create a simple webserver which will return below text when the user will browse [http://127.0.0.1:5000]
-![image](https://github.com/6613pranav/Docker/assets/48874265/7496b2dc-6fd3-4f72-bd0c-88a7a5495e27)
 
-### Initial Steps
+
+### Steps to follow
 * Clone Repo
   ```sh
-  npm install npm@latest -g
+  git clone https://github.com/6613pranav/hello-world-docker-flask.git
   ```
+* Install all the dependencies to run Flask Application
+  ```sh
+   pip install -r requirement.txt
+  ```
+* Run the flask App
+  ```sh
+  flask --app flask_app run -h 0.0.0.0
+  ```
+Great! Now that we saw how we can run a flask app on the local system, we will dockerize the same and run the container to get the above output.
 
-### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+### Understanding about the commands written in Docker file
+* This commands pulls the public Python image from [docker-hub]
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   FROM python:3.12.2
    ```
-3. Install NPM packages
+* Copies everything from local current working directory to image
    ```sh
-   npm install
+   COPY . .
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+* This will install all the required dependencies to run the flask app.
+   ```sh
+   RUN pip install  -r requirements.txt
+   ```
+* Runs the command whenever the container is created
+   ```sh
+   CMD ["python", "flask_app.py"]
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+_Now we have learnt about the commands inside the docker file, we will see how to build the image & run the container._
 
+### Building a docker image
+```sh
+docker build -t flask-app:v1 .
+```
+_'-t' flag is used to set the tag of image we are creating, in out case the image name is 'flask-app' and tag is 'v1'_
+![image](https://github.com/6613pranav/hello-world-docker-flask/assets/48874265/7da4a5b1-331a-46eb-b71e-8331471c3eb6)
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+### Creating a container from above image & running the same
+```sh
+docker run -p 3000:5000 flask-app:v1 
+```
+_'-p' tag is used to bind port from container to local machine, in our case we are binding port 3000 (local machine) to port 5000 (container)_
+![image](https://github.com/6613pranav/hello-world-docker-flask/assets/48874265/0db4d254-52cb-4d82-9104-8d62d091aa08)
+![image](https://github.com/6613pranav/hello-world-docker-flask/assets/48874265/8b0695ae-8400-414c-a779-0524ee4a98c5)
 
 
 
@@ -145,3 +85,4 @@ Use this space to list resources you find helpful and would like to give credit 
 [github-url]: https://github.com/6613pranav
 [github-shield]: https://img.shields.io/badge/github-1DA1F2?style=for-the-badge&logo=github&logoColor=white
 [Docker-desktop]: https://docs.docker.com/get-docker/
+[docker-hub]: https://hub.docker.com/_/python/
