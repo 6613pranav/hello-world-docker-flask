@@ -12,3 +12,4 @@ if __name__ == '__main__':
     app.run(debug=True, host = '0.0.0.0', port = 5000)
 
 # Command to run  flask App "flask --app flask_app run -h 0.0.0.0"
+# Command to create requirement.txt file "pip freeze > requirements.txt"
